@@ -1,65 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_dz/import.dart';
 
-import 'model.dart';
+const kTitle = 'Homework Provider';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MyColor>(
-      create: (context) => MyColor(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: MyHomePage(),
+    return MaterialApp(
+      builder: (BuildContext context, Widget widget) {
+        return ChangeNotifierProvider<HomeScreenModel>(
+          create: (context) => HomeScreenModel(),
+          child: widget,
+        );
+      },
+      title: kTitle,
+      theme: ThemeData(
+        primaryColor: Colors.black,
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  final String title = "Flutter Demo Home Page";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          this.title,
-          style: TextStyle(
-            color: context.watch<MyColor>().getAppBarColor,
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedContainer(
-              width: 150,
-              height: 150,
-              duration: Duration(milliseconds: 300),
-              color: context.watch<MyColor>().getAnimatedContainerColor,
-            ),
-            Switch(
-              value: context.watch<MyColor>().isSwitchedValue,
-              onChanged: (value) {
-                context.read<MyColor>().changeColors(value);
-              },
-              activeTrackColor: Colors.lightGreenAccent,
-              activeColor: Colors.green,
-            )
-          ],
-        ),
-      ),
+      home: HomeScreen(),
     );
   }
 }
